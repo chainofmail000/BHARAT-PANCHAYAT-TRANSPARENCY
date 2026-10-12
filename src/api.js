@@ -161,3 +161,11 @@ export const verifyContractorPin = (id, pin) => {
     body: formData,
   }).then((res) => res.json());
 };
+
+ 
+// Locality search and optional device-location matching
+export const searchLocations = (query) =>
+  apiCall(`/locations/search?q=${encodeURIComponent(query)}`);
+
+export const findNearestLocation = (latitude, longitude) =>
+  apiCall(`/locations/nearest?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}`);
