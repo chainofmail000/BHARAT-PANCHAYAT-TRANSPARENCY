@@ -36,7 +36,7 @@ export default function ContractorPanel({ setRole }) {
     const [tempId, setTempId] = useState(null);
 
     const [isOpen, setIsOpen] = useState(false);
-    const selectedContractor = contractors.find(c => c.id == tempId);
+    const selectedContractor = contractors.find((c) => String(c.id) === String(tempId));
 
     if (!contractorId) {
         return (
