@@ -1,3 +1,9 @@
+databases:
+  - name: nagrik-kothamangalam-db
+    databaseName: nagrik_kothamangalam
+    user: nagrik_kothamangalam
+    plan: free
+
 services:
   - type: web
     name: nagrik-kothamangalam-api
@@ -10,16 +16,18 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: CORS_ORIGINS
-        value: https://nagrik-kothamangalam.vercel.app,http://localhost:3000,http://127.0.0.1:3000
+        value: https://nagrik-kothamangalam-web.onrender.com,https://nagrik-kothamangalam.vercel.app,http://localhost:3000,http://127.0.0.1:3000
       - key: DATABASE_URL
-        value: sqlite:///./database.db
+        fromDatabase:
+          name: nagrik-kothamangalam-db
+          property: connectionString
+
   - type: web
     name: nagrik-kothamangalam-web
     runtime: static
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
-    rootDir: .
     envVars:
       - key: REACT_APP_API_BASE_URL
         value: https://nagrik-kothamangalam-api.onrender.com
