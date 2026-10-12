@@ -96,6 +96,12 @@ def nearest_location(
         return 6371 * 2 * asin(sqrt(min(1, a)))
 
     closest = min(villages, key=distance_km)
+    nearest_distance = distance_km(closest)
+    if nearest_distance > 30:
+        raise HTTPException(
+            status_code=404,
+            detail="No mapped locality is close enough to identify reliably. Please search by locality instead.",
+        )
     result = _location_result(closest)
-    result["distance_km"] = round(distance_km(closest), 2)
+    result["distance_km"] = round(nearest_distance, 2)
     return result
