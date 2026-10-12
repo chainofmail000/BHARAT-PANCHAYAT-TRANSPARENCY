@@ -4,6 +4,10 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 # Configure DATABASE_URL in hosted environments; local SQLite remains the default.
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./database.db")
+# Some hosting providers expose PostgreSQL URLs using the legacy postgres:// scheme.
+if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = "postgresql://" + SQLALCHEMY_DATABASE_URL[len("postgres://"):]
+
 _connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith("sqlite") else {}
 
 engine = create_engine(
